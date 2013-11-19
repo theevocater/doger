@@ -10,7 +10,7 @@ Install graphics magick via one of the following:
 
 ## RUN ##
 
-    ./doger.sh filename.jpg word list ...
+    ./doger.sh odoge.jpg fluffy doeg touche shibe
 
 ### Resources ###
 
