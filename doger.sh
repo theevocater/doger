@@ -25,9 +25,17 @@ function edit_image() {
 }
 
 function randomize_color() {
-  r=$((${RANDOM}%255))
-  g=$((${RANDOM}%255))
-  b=$((${RANDOM}%255))
+  # 255 is the highest color but I'm leaving out values between 0-25 and
+  # 230-255 to leave out too dark or too light colors
+  r=$((${RANDOM}%(255-50)+25))
+  g=$((${RANDOM}%(255-50)+25))
+  b=$((${RANDOM}%(255-50)+25))
+
+  # mix with white to create pastels
+  r=$((${r}+255/2))
+  g=$((${g}+255/2))
+  b=$((${b}+255/2))
+
   color="rgb($r,$g,$b)"
 }
 
@@ -50,7 +58,7 @@ randomize_color
 choose_prefix
 word="\"$prefix $word\""
 draw="text $location $word"
-echo "Adding $word at $draw"
+echo "Adding $draw $color"
 edit_image
 input_image="$output_image"
 done
