@@ -1,27 +1,35 @@
 #!/bin/bash
 
-word_list="fluff doge haha cute deog shibe"
+
+input_image=$1
+shift
+word_list=$*
 
 prefix_list=( so much very such )
 
-word_list="$word_list wow wow wow"
+word_list="$word_list"
 word_list_size=${#prefix_list[@]}
 
 point_size=18
 font="/Library/Fonts/Comic Sans MS.ttf"
 color="rgb(0,0,255)"
-input_image="odoge.jpg"
-output_image="out.jpg"
-geometry=`gm identify odoge.jpg | cut -d" " -f3 | cut -d"+" -f1`
+
+# use png as the "scratch image" to keep quality up
+temp_image="scratch.png"
+
+# get geometry of image
+geometry=`gm identify "${input_image}" | cut -d" " -f3 | cut -d"+" -f1`
 width=`cut -d"x" -f1 <<< $geometry`
 height=`cut -d"x" -f2 <<< $geometry`
 w_border=$((${width}/10))
 h_border=$((${height}/10))
+echo $input_image
+echo $temp_image
 echo ${width}x${height}
 echo ${w_border}x${h_border}
 
 function edit_image() {
-  gm convert -font "$font" -pointsize "$point_size" -fill "$color" -draw "$draw" "$input_image" "$output_image"
+  gm convert -font "$font" -pointsize "$point_size" -fill "$color" -draw "$draw" "$temp_image" "$temp_image"
 }
 
 function randomize_color() {
@@ -51,6 +59,10 @@ function choose_prefix() {
   prefix=${prefix_list[${index}]}
 }
 
+# create the scratch file
+gm convert "$input_image" "$temp_image"
+
+# add all the words from the input list
 for word in $word_list
 do
 randomize_location
@@ -60,5 +72,25 @@ word="\"$prefix $word\""
 draw="text $location $word"
 echo "Adding $draw $color"
 edit_image
-input_image="$output_image"
 done
+
+# add a few wows for good measure
+for word in wow wow wow wow
+do
+randomize_location
+randomize_color
+draw="text $location $word"
+echo "Adding $draw $color"
+edit_image
+done
+
+# output to the original filetype
+output_image="out.${input_image#*\.}"
+echo $output_image
+gm convert -quality 100 "$temp_image" "$output_image"
+# delete scratch
+rm "${temp_image}"
+
+# TODO
+# * add random e to the end of words without e
+# * use prefix only once
