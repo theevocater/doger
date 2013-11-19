@@ -33,11 +33,11 @@ function edit_image() {
 }
 
 function randomize_color() {
-  # 255 is the highest color but I'm leaving out values between 0-25 and
-  # 230-255 to leave out too dark or too light colors
-  r=$((${RANDOM}%(255-50)+25))
-  g=$((${RANDOM}%(255-50)+25))
-  b=$((${RANDOM}%(255-50)+25))
+  # 255 is the highest color but I'm leaving out values between 0-34 and
+  # 246-255 to leave out too dark or too light colors
+  r=$((${RANDOM}%(255-50)+35))
+  g=$((${RANDOM}%(255-50)+35))
+  b=$((${RANDOM}%(255-50)+35))
 
   # mix with white to create pastels
   r=$((${r}+255/2))
