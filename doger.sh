@@ -5,6 +5,7 @@ word_list="fluff doge haha cute deog shibe"
 prefix_list=( so much very such )
 
 word_list="$word_list wow wow wow"
+word_list_size=${#prefix_list[@]}
 
 point_size=18
 font="/Library/Fonts/Comic Sans MS.ttf"
@@ -37,10 +38,17 @@ function randomize_location() {
   location="${x},${y}"
 }
 
+function choose_prefix() {
+  index=$((${RANDOM}%${word_list_size}))
+  prefix=${prefix_list[${index}]}
+}
+
 for word in $word_list
 do
 randomize_location
 randomize_color
+choose_prefix
+word="\"$prefix $word\""
 draw="text $location $word"
 echo "Adding $word at $draw"
 edit_image
