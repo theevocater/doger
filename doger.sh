@@ -1,14 +1,17 @@
 #!/bin/bash
 
+if [[ ${##} < 2 ]]
+then
+  echo "$0 filename.jpg word list ..."
+  exit -1
+fi
 
 input_image=$1
 shift
 word_list=$*
 
 prefix_list=( so much very such )
-
-word_list="$word_list"
-word_list_size=${#prefix_list[@]}
+prefix_list_size=${#prefix_list[@]}
 
 point_size=18
 font="/Library/Fonts/Comic Sans MS.ttf"
@@ -55,7 +58,7 @@ function randomize_location() {
 }
 
 function choose_prefix() {
-  index=$((${RANDOM}%${word_list_size}))
+  index=$((${RANDOM}%${prefix_list_size}))
   prefix=${prefix_list[${index}]}
 }
 
