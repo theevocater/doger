@@ -1,6 +1,7 @@
 #!/bin/bash
 
-if [[ ${##} < 2 ]]
+echo $#
+if [[ ${#} < 2 ]]
 then
   echo "$0 filename.jpg word list ..."
   exit -1
